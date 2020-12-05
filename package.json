@@ -1,0 +1,8 @@
+{
+  "name": "envi-pro-glue-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/malaquiasdev/envi-pro-glue-service.git",
+  "author": "Mateus Malaquias <mateusmalaquiasdev@outlook.com>",
+  "license": "MIT"
+}
