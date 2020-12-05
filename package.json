@@ -4,5 +4,29 @@
   "main": "index.js",
   "repository": "https://github.com/malaquiasdev/envi-pro-glue-service.git",
   "author": "Mateus Malaquias <mateusmalaquiasdev@outlook.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "SLS_DEBUG=* && serverless offline",
+    "deploy": "export SLS_DEBUG=* && serverless deploy",
+    "deploy:dev": "export SLS_DEBUG=* && serverless deploy --stage dev",
+    "deploy:test": "export SLS_DEBUG=* && serverless deploy --stage test",
+    "deploy:prod": "export SLS_DEBUG=* && serverless deploy --stage prod",
+    "lint": "eslint --format codeframe src",
+    "test": "jest -u --silent test"
+  },
+    "dependencies": {
+    "dynamoose": "^2.4.1",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-prettier": "^3.2.0",
+    "prettier": "^2.2.1",
+    "serverless": "^2.15.0",
+    "serverless-offline": "^6.8.0"
+  }
 }
