@@ -1,16 +1,13 @@
 const logger = require('pino')();
-const Vacant = require('../../models/Vacant');
+
+const deleteEnviGlueVacantTable = require('../../libs/dynamodb/delete-table');
 
 async function handlerDeleteVacantStep() {
   try {
-    const vacants = await Vacant.scan().exec();
-    if (vacants && vacants.count) {
-      await Vacant.batchDelete(vacants);
-    }
-    return true;
+    await deleteEnviGlueVacantTable();
   } catch (error) {
     logger.error(error);
-    return false;
+    throw error;
   }
 }
 

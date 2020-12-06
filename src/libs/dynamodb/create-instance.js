@@ -1,7 +1,9 @@
 const dynamoose = require('dynamoose');
 
-function createDynamodbInstance(table, schema) {
-  return dynamoose.model(table, schema);
+const ENVI_GLUE_VACANT_TABLE_NAME = 'ENVI-GLUE-VACANT';
+
+function createDynamodbInstance(schema) {
+  return dynamoose.model(ENVI_GLUE_VACANT_TABLE_NAME, schema);
 }
 
 module.exports = createDynamodbInstance;
