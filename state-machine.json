@@ -1,0 +1,59 @@
+{
+  "Comment": "A Hello World example of the Amazon States Language using Pass states",
+  "StartAt": "Delete all vacant in datatabase",
+  "States": {
+    "Delete all vacant in datatabase": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-service-dev-delete-vacant-step",
+        "Payload": {
+          "Input.$": "$"
+        }
+      },
+      "Next": "Collect data from..."
+    },
+    "Collect data from...": {
+      "Type": "Pass",
+      "Next": "Parallel collect data"
+    },
+    "Parallel collect data": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Geologia page",
+          "States": {
+            "Geologia page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-service-dev-collect-vacant-step",
+                "Payload": {
+                  "summaryVacantListPageURL": "https://www.pciconcursos.com.br/vagas/geologia"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Biologia page",
+          "States": {
+            "Biologia page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-service-dev-collect-vacant-step",
+                "Payload": {
+                  "summaryVacantListPageURL": "https://www.pciconcursos.com.br/cargos/biologo"
+                }
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}
