@@ -2,7 +2,11 @@
 node_modules
 jspm_packages
 
+# Build coverage folder
+build/
+
 # Serverless directories
 .serverless
 
+# MAC OS
 .DS_Store
