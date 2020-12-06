@@ -37,15 +37,15 @@
           }
         },
         {
-          "StartAt": "Biologia page",
+          "StartAt": "Geografia page",
           "States": {
-            "Biologia page": {
+            "Geografia page": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "Parameters": {
                 "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-service-dev-collect-vacant-step",
                 "Payload": {
-                  "summaryVacantListPageURL": "https://www.pciconcursos.com.br/cargos/biologo"
+                  "summaryVacantListPageURL": "https://www.pciconcursos.com.br/vagas/geografia"
                 }
               },
               "End": true
