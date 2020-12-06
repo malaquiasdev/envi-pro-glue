@@ -8,15 +8,16 @@ package:
   include:
     - src/
   exclude:
-    - build
+    - build/**
     - .editorconfig
     - .eslintignore
     - .eslintrc.js
     - .gitignore
+    - prettier.config.js
     - jest.config.js
     - README.md
     - LICENSE
-    - src/**/__tests__
+    - src/**/__tests__/**
 
 provider:
   name: aws
