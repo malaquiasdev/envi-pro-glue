@@ -13,11 +13,12 @@ function getVacantUF($, element) {
   return $(element).find('div.cc').text();
 }
 
-function parseRawDataToSummaryVacantModel($) {
+function parseRawDataToSummaryVacantModel(event, $) {
   const vacants = [];
   $('div.ca').each((_, element) => {
     vacants.push({
       id: uuid.v4(),
+      category: event.category,
       title: getVacantTitle($, element),
       link: getVacantLink($, element),
       eventDate: getVacantEventDate($, element),

@@ -42,9 +42,3 @@ functions:
     handler: src/functions/delete-vacant-step/handler.handlerDeleteVacantStep
   collect-vacant-step:
     handler: src/functions/collect-vacant/handler.handlerCollectVacant
-    #events:
-    #  - schedule:
-    #    rate: rate(2 minutes)
-    #    enabled: true
-    #    input:
-    #      summaryVacantListPageURL: https://www.pciconcursos.com.br/vagas/geologia
