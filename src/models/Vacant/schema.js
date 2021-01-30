@@ -9,17 +9,19 @@ function createVacantSchema({ Schema }) {
         type: String,
         required: true
       },
-      title: {
-        type: String
-      },
-      link: {
-        type: String
-      },
-      eventDate: {
-        type: String
-      },
-      uf: {
-        type: String
+      result: {
+        type: Array,
+        schema: [
+          {
+            type: Object,
+            schema: {
+              title: String,
+              link: String,
+              eventDate: String,
+              uf: String
+            }
+          }
+        ]
       }
     },
     {
