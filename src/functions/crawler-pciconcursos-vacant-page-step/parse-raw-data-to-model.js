@@ -1,5 +1,3 @@
-const uuid = require('uuid');
-
 function getVacantTitle($, element) {
   return $(element).find('a').text();
 }
@@ -13,12 +11,10 @@ function getVacantUF($, element) {
   return $(element).find('div.cc').text();
 }
 
-function parseRawDataToSummaryVacantModel(event, $) {
+function parseRawDataToVacantModel($) {
   const vacants = [];
   $('div.ca').each((_, element) => {
     vacants.push({
-      id: uuid.v4(),
-      category: event.category,
       title: getVacantTitle($, element),
       link: getVacantLink($, element),
       eventDate: getVacantEventDate($, element),
@@ -27,4 +23,4 @@ function parseRawDataToSummaryVacantModel(event, $) {
   });
   return vacants;
 }
-module.exports = parseRawDataToSummaryVacantModel;
+module.exports = parseRawDataToVacantModel;
