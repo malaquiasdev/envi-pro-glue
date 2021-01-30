@@ -1,4 +1,4 @@
-service: envi-pro-glue-service
+service: envi-pro-glue
 
 plugins:
   - serverless-offline
@@ -25,7 +25,6 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   deploymentBucket: envipro-glue-${self:provider.stage}
-
   tracing:
     apiGateway: true
     lambda: true
@@ -36,9 +35,8 @@ provider:
         - cloudwatch:*
         - dynamodb:*
       Resource: 'arn:aws:dynamodb:us-east-1:*:*'
+  environment:
+    DYNAMODB_ENVI_GLUE_VACANT_TABLE_NAME: 'ENVI-GLUE-VACANT'
 
 functions:
-  delete-vacant-step:
-    handler: src/functions/delete-vacant-step/handler.handlerDeleteVacantStep
-  collect-vacant-step:
-    handler: src/functions/collect-vacant/handler.handlerCollectVacant
+  - ${file(src/functions/delete-vacant-table-step/function.yml)}

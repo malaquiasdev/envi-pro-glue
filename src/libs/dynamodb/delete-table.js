@@ -3,34 +3,29 @@ const dynamoose = require('dynamoose');
 
 const dynamoDB = dynamoose.aws.ddb();
 
-const ENVI_GLUE_VACANT_TABLE_NAME = 'ENVI-GLUE-VACANT';
-
-async function deleteEnviGlueVacantTable() {
+async function deleteTable(tableName) {
   return new Promise((resolve, reject) => {
-    dynamoDB.deleteTable(
-      { TableName: ENVI_GLUE_VACANT_TABLE_NAME },
-      (err, response) => {
-        if (err) {
-          if (err.code === 'ResourceNotFoundException') {
-            return resolve('table does not exists, so nothing to delete');
-          }
-          return reject(err);
+    dynamoDB.deleteTable({ TableName: tableName }, (err, response) => {
+      if (err) {
+        logger.error(err);
+        if (err.code === 'ResourceNotFoundException') {
+          const message = 'table does not exists, so nothing to delete';
+          logger.error(message);
+          return resolve(message);
         }
-        dynamoDB.waitFor(
-          'tableNotExists',
-          { TableName: ENVI_GLUE_VACANT_TABLE_NAME },
-          error => {
-            if (error) {
-              logger.error(error);
-              return reject(error);
-            }
-            return resolve(response);
-          }
-        );
-        return null;
+        return reject(err);
       }
-    );
+      dynamoDB.waitFor('tableNotExists', { TableName: tableName }, error => {
+        if (error) {
+          logger.error(error);
+          return reject(error);
+        }
+        return resolve(response);
+      });
+      logger.info('table deleted with sucess');
+      return resolve(response);
+    });
   });
 }
 
-module.exports = deleteEnviGlueVacantTable;
+module.exports = deleteTable;
