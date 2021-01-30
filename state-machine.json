@@ -8,6 +8,11 @@
       "Parameters": {
         "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-delete-vacant-table-step"
       },
+      "Next": "wait_five_seconds_after_delete_database"
+    },
+    "wait_five_seconds_after_delete_database": {
+      "Type": "Wait",
+      "Seconds": 5,
       "Next": "create_new_database"
     },
     "create_new_database": {
@@ -16,14 +21,14 @@
       "Parameters": {
         "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-create-vacant-table-step"
       },
-      "Next": "wait_five_seconds"
+      "Next": "wait_five_seconds_after_create_new_database"
     },
-    "wait_five_seconds": {
+    "wait_five_seconds_after_create_new_database": {
       "Type": "Wait",
       "Seconds": 5,
-      "Next": "parallel_crawler_pciconcursos_pages"
+      "Next": "parallel_crawler_pciconcursos_first_group_pages"
     },
-    "parallel_crawler_pciconcursos_pages": {
+    "parallel_crawler_pciconcursos_first_group_pages": {
       "Type": "Parallel",
       "Branches": [
         {
@@ -52,6 +57,509 @@
                 "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
                 "Payload": {
                   "category": "geografia"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenheiro_sanitarista_page",
+          "States": {
+            "engenheiro_sanitarista_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenheiro-sanitarista"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenheiro_sanitarista_e_ambiental_page",
+          "States": {
+            "engenheiro_sanitarista_e_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenheiro-sanitarista-e-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenheiro_florestal_page",
+          "States": {
+            "engenheiro_florestal_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenheiro-florestal"
+                }
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "wait_five_seconds_after_first_group_pages"
+    },
+    "wait_five_seconds_after_first_group_pages": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "parallel_crawler_pciconcursos_second_group_pages"
+    },
+    "parallel_crawler_pciconcursos_second_group_pages": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "fiscal_de_saneamento_page",
+          "States": {
+            "fiscal_de_saneamento_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "fiscal-de-saneamento"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "agente_de_saneamento_page",
+          "States": {
+            "agente_de_saneamento_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "agente-de-saneamento"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnico_em_saneamento_page",
+          "States": {
+            "tecnico_em_saneamento_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnico-em-saneamento"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "agroecologia_page",
+          "States": {
+            "agroecologia_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "agroecologia"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "professor_ciencias_biologicas_page",
+          "States": {
+            "professor_ciencias_biologicas_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "professor-ciencias-biologicas"
+                }
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "wait_five_seconds_after_second_pages"
+    },
+    "wait_five_seconds_after_second_pages": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "parallel_crawler_pciconcursos_third_group_pages"
+    },
+    "parallel_crawler_pciconcursos_third_group_pages": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "engenheiro_cartografo_page",
+          "States": {
+            "engenheiro_cartografo_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenheiro-cartografo"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnico_em_cartografia_page",
+          "States": {
+            "tecnico_em_cartografia_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnico-em-cartografia"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenharia_de_minas_page",
+          "States": {
+            "engenharia_de_minas_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenharia-de-minas"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnico_ambiental_page",
+          "States": {
+            "tecnico_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnico-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "assistente_de_fiscalizacao_ambiental_page",
+          "States": {
+            "assistente_de_fiscalizacao_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "assistente-de-fiscalizacao-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "wait_five_seconds_after_third_pages"
+    },
+    "wait_five_seconds_after_third_pages": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "parallel_crawler_pciconcursos_fourth_group_pages"
+    },
+    "parallel_crawler_pciconcursos_fourth_group_pages": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "agente_ambiental_page",
+          "States": {
+            "agente_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "agente-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "gestao_ambiental_page",
+          "States": {
+            "gestao_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "gestao-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnologo-em-gestao-ambiental_page",
+          "States": {
+            "tecnologo-em-gestao-ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnologo-em-gestao-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "auditor_ambiental_page",
+          "States": {
+            "auditor_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "auditor-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "agente_de_fiscalizacao_ambiental_page",
+          "States": {
+            "agente_de_fiscalizacao_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "agente-de-fiscalizacao-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "wait_five_seconds_after_fourth_pages"
+    },
+    "wait_five_seconds_after_fourth_pages": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "parallel_crawler_pciconcursos_fifth_group_pages"
+    },
+    "parallel_crawler_pciconcursos_fifth_group_pages": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "operador_de_estacao_de_tratamento_de_agua_e_esgoto_page",
+          "States": {
+            "operador_de_estacao_de_tratamento_de_agua_e_esgoto_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "operador-de-estacao-de-tratamento-de-agua-e-esgoto"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenheiro_agrimensor_page",
+          "States": {
+            "engenheiro_agrimensor_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenheiro-agrimensor"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnico_em_agrimensura_page",
+          "States": {
+            "tecnico_em_agrimensura_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnico-em-agrimensura"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnico_em_topografia_page",
+          "States": {
+            "tecnico_em_topografia_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnico-em-topografia"
+                }
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "wait_five_seconds_after_fifth_pages"
+    },
+    "wait_five_seconds_after_fifth_pages": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "parallel_crawler_pciconcursos_last_group_pages"
+    },
+    "parallel_crawler_pciconcursos_last_group_pages": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "gestor_de_residuos_solidos_page",
+          "States": {
+            "gestor_de_residuos_solidos_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "gestor-de-residuos-solidos"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenharia_de_petroleo_page",
+          "States": {
+            "engenharia_de_petroleo_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenharia-de-petroleo"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "gestor_ambiental_page",
+          "States": {
+            "gestor_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "gestor-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "engenharia_quimica_page",
+          "States": {
+            "engenharia_quimica_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "engenharia-quimica"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "tecnico_em_geoprocessamento_page",
+          "States": {
+            "tecnico_em_geoprocessamento_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "tecnico-em-geoprocessamento"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "quimico_page",
+          "States": {
+            "quimico_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "quimico"
                 }
               },
               "End": true
