@@ -1,10 +1,10 @@
 const logger = require('pino')();
-
-const deleteEnviGlueVacantTable = require('../../libs/dynamodb/delete-table');
+const config = require('./config');
+const deleteTable = require('../../libs/dynamodb/delete-table');
 
 async function handlerDeleteVacantStep() {
   try {
-    await deleteEnviGlueVacantTable();
+    await deleteTable(config.tableName);
   } catch (error) {
     logger.error(error);
     throw error;
