@@ -8,7 +8,7 @@ async function createTable(params) {
     dynamoDB.createTable(params, (err, data) => {
       if (err) {
         logger.error(err);
-        if (err.code === 'ResourceInUseException:') {
+        if (err.code === 'ResourceInUseException') {
           const message = 'table exists, so nothing to create';
           logger.error(message);
           return resolve(message);
