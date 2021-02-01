@@ -1,4 +1,4 @@
-function getVacantTitle($, element) {
+addfunction getVacantTitle($, element) {
   return $(element).find('a').text();
 }
 
@@ -9,11 +9,11 @@ function getVacantLink($, element) {
 function getVacantEventDate($, element) {
   const regexDate = new RegExp('(\\d{2})[/](\\d{2})[/](\\d{4})');
   const fullEventDateText = $(element).find('div.ce').text();
-  const array = regexDate.exec(fullEventDateText);
-  if (!Array.isArray(array)) {
+  const piecesOfDate = regexDate.exec(fullEventDateText);
+  if (!Array.isArray(piecesOfDate)) {
     return '';
   }
-  const [day, month, year] = array[0].split('/');
+  const [day, month, year] = piecesOfDate[0].split('/');
   return new Date(year, month - 1, day);
 }
 
