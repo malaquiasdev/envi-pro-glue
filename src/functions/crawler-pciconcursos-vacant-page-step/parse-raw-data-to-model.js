@@ -1,4 +1,4 @@
-addfunction getVacantTitle($, element) {
+function getVacantTitle($, element) {
   return $(element).find('a').text();
 }
 
