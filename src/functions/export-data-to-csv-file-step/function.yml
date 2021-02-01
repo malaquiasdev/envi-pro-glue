@@ -1,0 +1,3 @@
+export-data-to-csv-file-step:
+  handler: src/functions/export-data-to-csv-file-step/handler.handlerExportDataToCSVFileStep
+
