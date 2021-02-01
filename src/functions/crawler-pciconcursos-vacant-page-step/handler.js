@@ -17,7 +17,7 @@ async function handlerCrawlerPciconcursosVacantPageStep(event) {
       category: event.category,
       result
     };
-    if (result) {
+    if (result && result.length > 0) {
       await VacantModel.create(vacant);
     }
     return vacant;
