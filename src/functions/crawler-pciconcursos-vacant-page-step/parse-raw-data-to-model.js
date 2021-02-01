@@ -1,28 +1,22 @@
 function getVacantTitle($, element) {
   return $(element).find('a').text();
 }
+
 function getVacantLink($, element) {
   return $(element).find('a').attr('href');
 }
+
 function getVacantEventDate($, element) {
+  const regexDate = new RegExp('(\\d{2})[/](\\d{2})[/](\\d{4})');
   const fullEventDateText = $(element).find('div.ce').text();
-  if (fullEventDateText.includes('Conferir período por cargo')) {
-    return fullEventDateText.replace('Conferir período por cargo', '');
+  const array = regexDate.exec(fullEventDateText);
+  if (!Array.isArray(array)) {
+    return '';
   }
-  if (fullEventDateText.includes('Prorrogado até')) {
-    return fullEventDateText.replace('Prorrogado até', '');
-  }
-  if (fullEventDateText.includes('Reaberto até')) {
-    return fullEventDateText.replace('Reaberto até', '');
-  }
-  if (fullEventDateText.includes('Prorrogado edital n°')) {
-    return fullEventDateText.replace('Prorrogado edital n°', '');
-  }
-  if (fullEventDateText.includes('Reaberto p/ alguns cargos')) {
-    return fullEventDateText.replace('Reaberto p/ alguns cargos', '');
-  }
-  return fullEventDateText;
+  const [day, month, year] = array[0].split('/');
+  return new Date(year, month - 1, day);
 }
+
 function getVacantUF($, element) {
   return $(element).find('div.cc').text();
 }

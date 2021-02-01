@@ -17,7 +17,7 @@ function createVacantSchema({ Schema }) {
             schema: {
               title: String,
               link: String,
-              eventDate: String,
+              eventDate: Date,
               uf: String
             }
           }
