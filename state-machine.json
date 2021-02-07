@@ -110,6 +110,38 @@
               "End": true
             }
           }
+        },
+        {
+          "StartAt": "analista_ambiental_page",
+          "States": {
+            "analista_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "analista-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "fiscal_ambiental_page",
+          "States": {
+            "fiscal_ambiental_page": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-crawler-pciconcursos-vacant-page-step",
+                "Payload": {
+                  "category": "fiscal-ambiental"
+                }
+              },
+              "End": true
+            }
+          }
         }
       ],
       "Next": "wait_five_seconds_after_first_group_pages"
@@ -583,6 +615,14 @@
           }
         }
       ],
+      "Next": "export_database"
+    },
+    "export_database": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:252311082662:function:envi-pro-glue-dev-export-data-to-csv-file-step"
+      },
       "End": true
     }
   }
