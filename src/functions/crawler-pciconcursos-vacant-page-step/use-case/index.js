@@ -1,5 +1,6 @@
 const logger = require('pino')();
 const parseRawDataToVacantModel = require('./parse-raw-data-to-model');
+const filterVacantsByFutureDate = require('./filter-data-by-future-date');
 
 async function executeTheCrawlerPCIConcursosVacantPage(
   { event, uuid, url },
@@ -7,15 +8,15 @@ async function executeTheCrawlerPCIConcursosVacantPage(
 ) {
   try {
     const rawData = await fetchData(url);
-    const result = parseRawDataToVacantModel(rawData).filter(vacant => {
-      return vacant.eventDate > new Date();
-    });
+    const result = filterVacantsByFutureDate(
+      parseRawDataToVacantModel(rawData)
+    );
     const vacant = {
       id: uuid,
       category: event.category,
       result
     };
-    if (result && result.length > 0) {
+    if (Array.isArray(result)) {
       await VacantModel.create(vacant);
     }
     return vacant;
