@@ -18,7 +18,7 @@ async function handlerExportDataToCSVFileStep() {
         logger.error(err, 'err');
       }
       const params = {
-        Bucket: 'envipro-glue-dev/export',
+        Bucket: config.bucketName,
         Key: `vacants-${new Date().getTime()}.csv`,
         ACL: 'public-read',
         Body: res,
