@@ -11,6 +11,7 @@ function createVacantSchema({ Schema }) {
       },
       result: {
         type: Array,
+        required: true,
         schema: [
           {
             type: Object,

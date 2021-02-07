@@ -1,4 +1,3 @@
-const uuid = require('uuid');
 const logger = require('pino')();
 const config = require('./config');
 const fetchData = require('../../libs/http/fetch-data');
@@ -10,8 +9,7 @@ async function handlerCrawlerPciconcursosVacantPageStep(event) {
     const result = await executeTheCrawlerPCIConcursosVacantPage(
       {
         event,
-        uuid: uuid.v4(),
-        url: `${config.baseUrl}/${event.category}`
+        config
       },
       { fetchData, VacantModel }
     );
