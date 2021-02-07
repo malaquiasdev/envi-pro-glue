@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
-const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-function parseDataToCSV(array) {
+async function parseDataToCSV(array) {
   const flatData = [];
   for (const data of array) {
     for (const subItem of data.result) {
@@ -12,17 +12,18 @@ function parseDataToCSV(array) {
       flatData.push(newItem);
     }
   }
-  const csvStringifier = createCsvStringifier({
+  const csv = createCsvWriter({
+    path: '/tmp/data.csv',
     header: [
-      { id: 'category', title: 'CATEGORY' },
-      { id: 'link', title: 'LINK' },
-      { id: 'uf', title: 'UF' },
-      { id: 'title', title: 'TITLE' },
-      { id: 'eventDate', title: 'EVENT_DATE' }
+      { id: 'category', title: 'category' },
+      { id: 'link', title: 'link' },
+      { id: 'uf', title: 'uf' },
+      { id: 'title', title: 'title' },
+      { id: 'eventDate', title: 'eventDate' }
     ]
   });
-
-  return csvStringifier.stringifyRecords(flatData);
+  await csv.writeRecords(flatData);
+  return '/tmp/data.csv';
 }
 
 module.exports = parseDataToCSV;
