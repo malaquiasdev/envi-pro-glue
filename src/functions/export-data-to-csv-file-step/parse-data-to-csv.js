@@ -6,8 +6,9 @@ async function parseDataToCSV(array) {
   for (const data of array) {
     for (const subItem of data.result) {
       const newItem = {
+        ...subItem,
         category: data.category,
-        ...subItem
+        eventDate: `${subItem.eventDate.getDate()}-${subItem.eventDate.getMonth()}-${subItem.eventDate.getFullYear()}`
       };
       flatData.push(newItem);
     }
