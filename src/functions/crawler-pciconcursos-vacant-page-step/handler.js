@@ -1,26 +1,24 @@
 const uuid = require('uuid');
 const logger = require('pino')();
-const fetchData = require('../../libs/http/fetch-data');
-const createVacantModel = require('../../models/Vacant');
 const config = require('./config');
-const parseRawDataToVacantModel = require('./parse-raw-data-to-model');
+const fetchData = require('../../libs/http/fetch-data');
+const VacantModel = require('../../models/Vacant')(config.tableName);
+const executeTheCrawlerPCIConcursosVacantPage = require('./use-case');
 
 async function handlerCrawlerPciconcursosVacantPageStep(event) {
   try {
-    const VacantModel = createVacantModel(config.tableName);
-    const rawData = await fetchData(`${config.baseUrl}/${event.category}`);
-    const result = parseRawDataToVacantModel(rawData).filter(vacant => {
-      return vacant.eventDate > new Date();
-    });
-    const vacant = {
-      id: uuid.v4(),
-      category: event.category,
-      result
+    const result = await executeTheCrawlerPCIConcursosVacantPage(
+      {
+        event,
+        uuid: uuid.v4(),
+        url: `${config.baseUrl}/${event.category}`
+      },
+      { fetchData, VacantModel }
+    );
+    return {
+      ...event,
+      ...result
     };
-    if (result && result.length > 0) {
-      await VacantModel.create(vacant);
-    }
-    return vacant;
   } catch (error) {
     logger.error(error);
     throw error;
