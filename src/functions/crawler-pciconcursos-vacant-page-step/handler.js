@@ -1,6 +1,6 @@
 const logger = require('pino')();
 const config = require('./config');
-const fetchData = require('../../libs/http/fetch-data');
+const fetchData = require('../../components/fetch-data');
 const VacantModel = require('../../models/Vacant')(config.tableName);
 const executeTheCrawlerPCIConcursosVacantPage = require('./use-case');
 
