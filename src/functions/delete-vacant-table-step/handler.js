@@ -1,6 +1,6 @@
 const logger = require('pino')();
 const config = require('./config');
-const deleteTable = require('../../libs/dynamodb/delete-table');
+const deleteTable = require('../../components/dynamodb/delete-table');
 
 async function handlerDeleteVacantStep() {
   try {

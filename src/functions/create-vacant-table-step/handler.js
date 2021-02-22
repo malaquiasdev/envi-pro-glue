@@ -1,7 +1,7 @@
 const logger = require('pino')();
 const config = require('./config');
-const createVacantModel = require('../../models/Vacant');
-const createTable = require('../../libs/dynamodb/create-table');
+const createVacantModel = require('../../components/dynamodb/models/Vacant');
+const createTable = require('../../components/dynamodb/create-table');
 
 async function handlerCreateVacantTableStep() {
   try {

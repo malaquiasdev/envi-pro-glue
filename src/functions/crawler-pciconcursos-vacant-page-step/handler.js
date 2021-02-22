@@ -1,7 +1,9 @@
 const logger = require('pino')();
 const config = require('./config');
 const fetchData = require('../../components/fetch-data');
-const VacantModel = require('../../models/Vacant')(config.tableName);
+const VacantModel = require('../../components/dynamodb/models/Vacant')(
+  config.tableName
+);
 const executeTheCrawlerPCIConcursosVacantPage = require('./use-case');
 
 async function handlerCrawlerPciconcursosVacantPageStep(event) {

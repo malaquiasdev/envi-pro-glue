@@ -1,5 +1,5 @@
 const dynamoose = require('dynamoose');
-const createDynamodbInstance = require('../../libs/dynamodb/create-instance');
+const createDynamodbInstance = require('../../dynamodb/create-instance');
 const createVacantSchema = require('./schema');
 
 function createVacantModel(tableName) {
