@@ -3,7 +3,7 @@ const logger = require('pino')();
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const config = require('./config');
-const createVacantModel = require('../../models/Vacant');
+const createVacantModel = require('../../components/dynamodb/models/Vacant');
 const parseDataToCSV = require('./parse-data-to-csv');
 
 const s3 = new AWS.S3();
