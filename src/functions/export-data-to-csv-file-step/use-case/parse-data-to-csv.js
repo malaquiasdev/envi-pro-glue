@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
-const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const ObjectsToCsv = require('objects-to-csv');
+const getDateMonthYearStringFromDate = require('./get-date-month-year');
 
 async function parseDataToCSV(array) {
   const flatData = [];
@@ -8,23 +9,13 @@ async function parseDataToCSV(array) {
       const newItem = {
         ...subItem,
         category: data.category,
-        eventDate: `${subItem.eventDate.getDate()}-${subItem.eventDate.getMonth()}-${subItem.eventDate.getFullYear()}`
+        eventDate: getDateMonthYearStringFromDate(subItem.eventDate)
       };
       flatData.push(newItem);
     }
   }
-  const csv = createCsvWriter({
-    path: '/tmp/data.csv',
-    header: [
-      { id: 'category', title: 'category' },
-      { id: 'link', title: 'link' },
-      { id: 'uf', title: 'uf' },
-      { id: 'title', title: 'title' },
-      { id: 'eventDate', title: 'eventDate' }
-    ]
-  });
-  await csv.writeRecords(flatData);
-  return '/tmp/data.csv';
+  const csv = new ObjectsToCsv(flatData);
+  return csv.toString();
 }
 
 module.exports = parseDataToCSV;

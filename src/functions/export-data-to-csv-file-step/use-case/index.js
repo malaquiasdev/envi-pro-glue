@@ -1,29 +1,21 @@
 const parseDataToCSV = require('./parse-data-to-csv');
+const getDateMonthYearStringFromDate = require('./get-date-month-year');
 
 async function executeExportDataToCSVFile(
   { tableName, bucketName },
-  { createVacantModel, fs, logError, createNewFile }
+  { createVacantModel, createNewS3File }
 ) {
   const VacantModel = createVacantModel(tableName);
   const data = await VacantModel.scan().exec();
-  await parseDataToCSV(data);
-  fs.readFile('/tmp/data.csv', 'utf8', (err, res) => {
-    if (err) {
-      logError({
-        message: err.message,
-        params: { type: err.name, stack: err.stack }
-      });
-      throw err;
-    }
-    const params = {
-      Bucket: bucketName,
-      ACL: 'public-read',
-      Key: `vacants-${new Date().getTime()}.csv`,
-      Body: res,
-      ContentType: 'text/csv'
-    };
-    return createNewFile(params);
-  });
+  const csv = await parseDataToCSV(data);
+  const params = {
+    Bucket: bucketName,
+    ACL: 'public-read',
+    Key: `vacants-${getDateMonthYearStringFromDate(new Date())}.csv`,
+    Body: csv,
+    ContentType: 'text/csv'
+  };
+  return createNewS3File(params);
 }
 
 module.exports = executeExportDataToCSVFile;

@@ -1,8 +1,8 @@
 const fs = require('fs');
 const config = require('./config');
-const { logError } = require('../../components/logger');
+const { logError, logInfo } = require('../../components/logger');
 const createVacantModel = require('../../components/dynamodb/models/Vacant');
-const createNewFile = require('../../components/s3/create-new-file');
+const createNewS3File = require('../../components/s3/create-new-file');
 const executeExportDataToCSVFile = require('./use-case');
 
 async function handlerExportDataToCSVFileStep() {
@@ -12,7 +12,7 @@ async function handlerExportDataToCSVFileStep() {
         tableName: config.tableName,
         bucketName: config.bucketName
       },
-      { createVacantModel, fs, logError, createNewFile }
+      { createVacantModel, fs, logError, createNewS3File, logInfo }
     );
   } catch (error) {
     logError({

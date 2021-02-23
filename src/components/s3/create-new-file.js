@@ -3,7 +3,7 @@ const logError = require('../logger/index');
 
 const s3 = new AWS.S3();
 
-async function createNewFile(params) {
+async function createNewS3File(params) {
   try {
     return s3.putObject(params).promise();
   } catch (error) {
@@ -15,4 +15,4 @@ async function createNewFile(params) {
   }
 }
 
-module.exports = createNewFile;
+module.exports = createNewS3File;
