@@ -2,12 +2,14 @@ const logger = require('pino')();
 const config = require('./config');
 const createVacantModel = require('../../components/dynamodb/models/Vacant');
 const createTable = require('../../components/dynamodb/create-table');
+const executeCreateVacantTable = require('./use-case');
 
 async function handlerCreateVacantTableStep() {
   try {
-    const VacantModel = createVacantModel(config.tableName);
-    const params = await VacantModel.table.create.request();
-    await createTable(params);
+    await executeCreateVacantTable(
+      { tableName: config.tableName },
+      { createTable, createVacantModel }
+    );
   } catch (error) {
     logger.error(error);
     throw error;
