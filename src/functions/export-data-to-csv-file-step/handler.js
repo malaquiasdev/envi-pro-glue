@@ -1,39 +1,24 @@
-/* eslint-disable no-undef */
-const logger = require('pino')();
-const AWS = require('aws-sdk');
 const fs = require('fs');
 const config = require('./config');
+const { logError, logInfo } = require('../../components/logger');
 const createVacantModel = require('../../components/dynamodb/models/Vacant');
-const parseDataToCSV = require('./parse-data-to-csv');
-
-const s3 = new AWS.S3();
+const createNewS3File = require('../../components/s3/create-new-file');
+const executeExportDataToCSVFile = require('./use-case');
 
 async function handlerExportDataToCSVFileStep() {
   try {
-    const VacantModel = createVacantModel(config.tableName);
-    const data = await VacantModel.scan().exec();
-    await parseDataToCSV(data);
-    fs.readFile('/tmp/data.csv', 'utf8', (err, res) => {
-      if (err) {
-        logger.error(err, 'err');
-      }
-      const params = {
-        Bucket: config.bucketName,
-        Key: `vacants-${new Date().getTime()}.csv`,
-        ACL: 'public-read',
-        Body: res,
-        ContentType: 'text/csv'
-      };
-      return s3.putObject(params, (s3Err, result) => {
-        if (s3Err) {
-          throw s3Err;
-        } else {
-          return { redirectUri: result.Location };
-        }
-      });
-    });
+    await executeExportDataToCSVFile(
+      {
+        tableName: config.tableName,
+        bucketName: config.bucketName
+      },
+      { createVacantModel, fs, logError, createNewS3File, logInfo }
+    );
   } catch (error) {
-    logger.error(error);
+    logError({
+      message: error.message,
+      params: { type: error.name, stack: error.stack }
+    });
     throw error;
   }
 }
