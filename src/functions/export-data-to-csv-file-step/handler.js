@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
-const logger = require('pino')();
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const config = require('./config');
+const { logError } = require('../../components/logger');
 const createVacantModel = require('../../components/dynamodb/models/Vacant');
 const executeExportDataToCSVFile = require('./use-case');
 
@@ -15,10 +14,13 @@ async function handlerExportDataToCSVFileStep() {
         tableName: config.tableName,
         bucketName: config.bucketName
       },
-      { createVacantModel, fs, logger, s3 }
+      { createVacantModel, fs, logError, s3 }
     );
   } catch (error) {
-    logger.error(error);
+    logError({
+      message: error.message,
+      params: { type: error.name, stack: error.stack }
+    });
     throw error;
   }
 }
