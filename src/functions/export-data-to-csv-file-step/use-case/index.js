@@ -2,7 +2,7 @@ const parseDataToCSV = require('./parse-data-to-csv');
 
 async function executeExportDataToCSVFile(
   { tableName, bucketName },
-  { createVacantModel, fs, logError, s3 }
+  { createVacantModel, fs, logError, createNewFile }
 ) {
   const VacantModel = createVacantModel(tableName);
   const data = await VacantModel.scan().exec();
@@ -22,17 +22,7 @@ async function executeExportDataToCSVFile(
       Body: res,
       ContentType: 'text/csv'
     };
-    return s3.putObject(params, (s3Err, result) => {
-      if (s3Err) {
-        logError({
-          message: s3Err.message,
-          params: { type: s3Err.name, stack: s3Err.stack }
-        });
-        throw s3Err;
-      } else {
-        return { redirectUri: result.Location };
-      }
-    });
+    return createNewFile(params);
   });
 }
 
