@@ -1,12 +1,9 @@
-//const AWS = require('aws-sdk');
 const fs = require('fs');
 const config = require('./config');
 const { logError } = require('../../components/logger');
 const createVacantModel = require('../../components/dynamodb/models/Vacant');
 const createNewFile = require('../../components/s3/create-new-file');
 const executeExportDataToCSVFile = require('./use-case');
-
-//const s3 = new AWS.S3();
 
 async function handlerExportDataToCSVFileStep() {
   try {
