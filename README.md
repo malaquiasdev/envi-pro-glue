@@ -22,8 +22,6 @@ Before you begin, ensure you have met the following requirements:
 - AWS DynamoDB
 - AWS Cloud Watch
 
-**I strongly recommend you to use docker as an option to run this project.**
-
 ## Installing
 1. Clone this repository. `$ git clone https://github.com/malaquiasdev/envi-pro-glue.git`
 2. Go to the project folder. `$ cd envi-pro-glue`
@@ -61,7 +59,3 @@ Thanks to the following people who have contributed to this project:
 ## Contact
 
 If you want to contact me you can reach me at <mateusmalaquiasdev@outlook.com>.
-
-## License
-
-This project uses the following license: [MIT](https://github.com/malaquiasdev/studio-ghibli-database-graphql/blob/master/LICENSE).
