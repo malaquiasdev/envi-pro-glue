@@ -1,11 +1,7 @@
 # EnviPro Glue Service
 
-This is an unofficial api. We are made by fan for fan.
+This project is a crawler used to collect data from vacants webpages using AWS Step functions.
 
-To know more about us please go to our [Wiki page](https://github.com/malaquiasdev/studio-ghibli-database-graphql/wiki/01.Introduction
-).
-
-]
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
