@@ -1,8 +1,8 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const logger = require('pino')();
+const { logError } = require('../logger');
 
-async function fetchData(url) {
+async function fetchDataPage(url) {
   if (!url) {
     throw Error('url parameter is required');
   }
@@ -10,9 +10,12 @@ async function fetchData(url) {
     const result = await axios.get(url);
     return cheerio.load(result.data);
   } catch (error) {
-    logger.error(error);
+    logError({
+      message: error.message,
+      params: { type: error.name, stack: error.stack }
+    });
     throw error;
   }
 }
 
-module.exports = fetchData;
+module.exports = { fetchDataPage };
