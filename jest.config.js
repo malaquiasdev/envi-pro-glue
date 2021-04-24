@@ -2,7 +2,7 @@ module.exports = {
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   watchPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  testMatch: ['<rootDir>/src/**/*.test.js'],
+  testMatch: ['<rootDir>/test/**/*.test.js'],
   timers: 'fake',
   clearMocks: true,
   resetMocks: false,

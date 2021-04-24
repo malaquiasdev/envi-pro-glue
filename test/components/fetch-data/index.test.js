@@ -1,6 +1,5 @@
-const fetchData = require('../index');
 const axios = require('axios');
-
+const fetchData = require('../../../src/components/fetch-data/index');
 const MOCK_PAGE_REQUEST = require('./__mocks__/axios-result.mock');
 
 jest.mock('axios');
