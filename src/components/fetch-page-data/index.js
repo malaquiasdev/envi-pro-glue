@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { logError } = require('../logger');
 
-async function fetchDataPage(url) {
+async function fetchPageData(url) {
   if (!url) {
     throw Error('url parameter is required');
   }
@@ -18,4 +18,4 @@ async function fetchDataPage(url) {
   }
 }
 
-module.exports = { fetchDataPage };
+module.exports = { fetchPageData };

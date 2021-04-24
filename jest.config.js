@@ -9,13 +9,5 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/src/**/*.js'],
   coverageDirectory: './build/cov',
-  coverageReporters: ['lcov'],
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100
-    }
-  }
+  coverageReporters: ['lcov']
 };

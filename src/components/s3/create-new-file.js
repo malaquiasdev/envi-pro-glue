@@ -1,11 +1,12 @@
 const AWS = require('aws-sdk');
-const logError = require('../logger/index');
+const { logError } = require('../logger/index');
 
 const s3 = new AWS.S3();
 
 async function createNewS3File(params) {
   try {
-    return s3.putObject(params).promise();
+    await s3.putObject(params).promise();
+    return true;
   } catch (error) {
     logError({
       message: error.message,
@@ -15,4 +16,4 @@ async function createNewS3File(params) {
   }
 }
 
-module.exports = createNewS3File;
+module.exports = { createNewS3File };
