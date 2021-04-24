@@ -12,7 +12,7 @@
     "url": "https://github.com/malaquiasdev/envi-pro-glue/issues"
   },
   "scripts": {
-    "dev": "SLS_DEBUG=* && node --debug serverless offline",
+    "dev": "SLS_DEBUG=* && node --debug ./node_modules/.bin/serverless offline",
     "lint": "eslint --format codeframe src",
     "test": "jest -u test",
     "test:coverage": "jest --silent --coverage --logHeapUsage test",

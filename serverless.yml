@@ -39,10 +39,6 @@ provider:
     DYNAMODB_ENVI_GLUE_VACANT_TABLE_NAME: 'ENVI-GLUE-VACANT'
 
 functions:
-  - ${file(src/functions/delete-vacant-table-step/function.yml)}
-  - ${file(src/functions/create-vacant-table-step/function.yml)}
-  - ${file(src/functions/crawler-pciconcursos-vacant-page-step/function.yml)}
-  - ${file(src/functions/export-data-to-csv-file-step/function.yml)}
-
+  - ${file(src/functions/crawler/pciconcursos-vacant-page/function.yml)}
 
 

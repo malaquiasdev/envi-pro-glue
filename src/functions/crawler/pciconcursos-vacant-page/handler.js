@@ -1,16 +1,17 @@
-const { logError } = require('../../../components/logger');
 const config = require('./config');
-const fetchPageData = require('../../../components/fetch-page-data');
+const { logError } = require('../../../components/logger');
+const { fetchPageData } = require('../../../components/http/fetch-page-data');
+const { crawlerPCIConcursosVacantPageData } = require('./use-case');
 
 async function handlerCrawlerPCIConcursosVacantPage(event) {
   try {
-    /*const result = await executeTheCrawlerPCIConcursosVacantPage(
+    const result = await crawlerPCIConcursosVacantPageData(
       {
-        event,
-        config
+        category: event.category,
+        baseUrl: config.baseUrl
       },
-      { fetchData, VacantModel }
-    );*/
+      { fetchPageData, logError }
+    );
     return {
       ...event,
       ...result
