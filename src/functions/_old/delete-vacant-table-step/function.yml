@@ -1,0 +1,2 @@
+delete-vacant-table-step:
+  handler: src/functions/delete-vacant-table-step/handler.handlerDeleteVacantStep

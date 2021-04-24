@@ -1,0 +1,3 @@
+create-vacant-table-step:
+  handler: src/functions/create-vacant-table-step/handler.handlerCreateVacantTableStep
+
