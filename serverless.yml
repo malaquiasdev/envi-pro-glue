@@ -1,4 +1,4 @@
-service: envi-pro-glue
+service: envipro-glue
 
 plugins:
   - serverless-plugin-log-retention
@@ -36,9 +36,7 @@ provider:
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: us-east-1
-  tracing:
-    apiGateway: true
-    lambda: true
+  deploymentBucket: envipro-glue-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:

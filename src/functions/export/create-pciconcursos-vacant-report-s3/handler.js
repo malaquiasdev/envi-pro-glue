@@ -8,14 +8,20 @@ const {
 const { exportVacantDataToCSVFileInS3 } = require('./use-case');
 
 async function handlerCreatePCIConcursosVacantReportS3() {
+  logInfo({
+    message: 'start - export report',
+    params: config
+  });
   try {
-    await exportVacantDataToCSVFileInS3(
+    const report = await exportVacantDataToCSVFileInS3(
       {
         tableName: config.tableName,
-        bucketName: config.bucketName
+        bucketPath: config.bucketPath
       },
       { fs, logError, createNewS3File, findAllVacants, logInfo }
     );
+    logInfo({ message: 'finish - export report', params: report });
+    return report;
   } catch (error) {
     logError({
       message: error.message,
