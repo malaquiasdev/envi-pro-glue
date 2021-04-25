@@ -24,7 +24,6 @@ provider:
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: us-east-1
-  deploymentBucket: envipro-glue-${self:provider.stage}
   tracing:
     apiGateway: true
     lambda: true

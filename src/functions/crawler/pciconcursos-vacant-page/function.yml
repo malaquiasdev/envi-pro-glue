@@ -1,4 +1,4 @@
 crawler-pciconcursos-vacant-page:
-  handler: /src/functions/crawler/pciconcursos-vacant-page/handler.handlerCrawlerPCIConcursosVacantPage
+  handler: src/functions/crawler/pciconcursos-vacant-page/handler.handlerCrawlerPCIConcursosVacantPage
   environment:
     PCICONCURSOS_VACANT_BASE_URL: 'https://www.pciconcursos.com.br/vagas'

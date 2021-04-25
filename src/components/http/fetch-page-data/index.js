@@ -1,6 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { logError } = require('../logger');
+const { logError } = require('../../logger');
 
 async function fetchPageData(url) {
   if (!url) {
