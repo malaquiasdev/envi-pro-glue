@@ -113,6 +113,7 @@ stepFunctions:
             ItemsPath: "$.categories"
             MaxConcurrency: 5
             ResultPath: "$.collectedCategories"
+            Next: "ExportPCIConcursosToS3"
             Iterator:
               StartAt: "InterateCrawlerPCIConcursosPages"
               States:
@@ -139,4 +140,8 @@ stepFunctions:
                   Type: "Wait"
                   Seconds: 5
                   End: true
+          ExportPCIConcursosToS3:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [export-data-to-csv-file-step, Arn]
             End: true
