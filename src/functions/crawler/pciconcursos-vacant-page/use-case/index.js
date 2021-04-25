@@ -8,7 +8,7 @@ async function crawlerPCIConcursosVacantPageData(
 ) {
   try {
     const rawData = await fetchPageData(getURL(baseUrl, category));
-    return convertRawData(rawData);
+    return filterVacantsByFutureDate(convertRawData(rawData));
   } catch (error) {
     logError({
       message: error.message,
