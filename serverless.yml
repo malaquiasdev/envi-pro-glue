@@ -60,24 +60,41 @@ stepFunctions:
     testStateMachinesPlugin:
       name: testStateMachinesPlugin
       definition:
-        StartAt: CrawlPCIConcursosGeologiaPage
+        StartAt: ParallelFirstGroupOfPages
         States:
-          CrawlPCIConcursosGeologiaPage:
-            Type: Task
-            Resource:
-              Fn::GetAtt: [crawler-pciconcursos-vacant-page, Arn]
-            Parameters:
-              Payload:
-                category: "geologia"
-            Next: WriteDataInDynamoDB
-          WriteDataInDynamoDB:
-            Type: Task
-            Resource: "arn:aws:states:::dynamodb:putItem"
-            Parameters:
-              TableName: ${self:custom.vacantTableName}
-              Item:
-                category: { "S.$": "$.Payload.category" }
-                updated_at: { "S.$": "$$.State.EnteredTime" }
-                result: { "L.$": "$.result[0:]*" }
+          ParallelFirstGroupOfPages:
+            Type: "Parallel"
+            Next: "FinalState"
+            Branches:
+              - StartAt: CrawlPCIConcursosGeologiaPage
+                States:
+                  CrawlPCIConcursosGeologiaPage:
+                    Type: Task
+                    Resource:
+                      Fn::GetAtt: [crawler-pciconcursos-vacant-page, Arn]
+                    Parameters:
+                      Payload:
+                        category: "geologia"
+                    Next: WriteDataInDynamoDB
+                  WriteDataInDynamoDB:
+                    Type: Task
+                    Resource: "arn:aws:states:::dynamodb:putItem"
+                    Parameters:
+                      TableName: ${self:custom.vacantTableName}
+                      Item:
+                        category: { "S.$": "$.Payload.category" }
+                        updated_at: { "S.$": "$$.State.EnteredTime" }
+                        result: { "L.$": "$.result[0:]*" }
+                    End: true
+              - StartAt: Pass
+                States:
+                  Pass:
+                    Type: Pass
+                    Next: Wait 10s
+                  Wait 10s:
+                    Type: Wait
+                    Seconds: 10
+                    End: true
+          FinalState:
+            Type: Pass
             End: true
-  # validate: true # enable pre-deployment definition validation (disabled by default)
