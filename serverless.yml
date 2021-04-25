@@ -51,6 +51,7 @@ provider:
 
 functions:
   - ${file(src/functions/crawler/pciconcursos-vacant-page/function.yml)}
+  - ${file(src/functions/export/create-pciconcursos-vacant-report-s3/function.yml)}
 
 resources:
   - ${file(resources/dynamodb-vacant-table.yml)}
@@ -89,14 +90,21 @@ stepFunctions:
                 { Payload: { category: "tecnologo-em-gestao-ambiental" } },
                 { Payload: { category: "auditor-ambiental" } },
                 { Payload: { category: "agente-de-fiscalizacao-ambiental" } },
-                { Payload: { category: "assistente-de-fiscalizacao-ambiental" } },
-                { Payload: { category: "operador-de-estacao-de-tratamento-de-agua-e-esgoto" } },
+                {
+                  Payload: { category: "assistente-de-fiscalizacao-ambiental" },
+                },
+                {
+                  Payload:
+                    {
+                      category: "operador-de-estacao-de-tratamento-de-agua-e-esgoto",
+                    },
+                },
                 { Payload: { category: "engenheiro-agrimensor" } },
                 { Payload: { category: "tecnico-em-agrimensura" } },
                 { Payload: { category: "tecnico-em-topografia" } },
                 { Payload: { category: "gestor-de-residuos-solidos" } },
                 { Payload: { category: "analista-ambiental" } },
-                { Payload: { category: "fiscal-ambiental" } }
+                { Payload: { category: "fiscal-ambiental" } },
               ]
             ResultPath: "$.categories"
             Next: "CrawlPCIConcursosPages"
@@ -125,7 +133,7 @@ stepFunctions:
                     Item:
                       category: { "S.$": "$.Payload.category" }
                       updated_at: { "S.$": "$$.State.EnteredTime" }
-                      result: { "L.$": "$.result[0:]*" }
+                      result: { "S.$": "States.JsonToString($.result)" }
                   Next: WaitFiveSeconds
                 WaitFiveSeconds:
                   Type: "Wait"
