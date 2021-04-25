@@ -1,5 +1,0 @@
-export-data-to-csv-file-step:
-  handler: src/functions/export-data-to-csv-file-step/handler.handlerExportDataToCSVFileStep
-  environment:
-    BUCKET_NAME: envipro-glue-${self:provider.stage}/export
-

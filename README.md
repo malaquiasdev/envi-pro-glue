@@ -25,16 +25,15 @@ Before you begin, ensure you have met the following requirements:
 ## Installing
 1. Clone this repository. `$ git clone https://github.com/malaquiasdev/envi-pro-glue.git`
 2. Go to the project folder. `$ cd envi-pro-glue`
-3. Copy the **.env.example** file and create an **.env** file with your AWS Credentials.
+3. Install the dependencies. `$ yarn install`
 
-## Execute
-1. Install the dependencies. `$ yarn install`
-2. Run offline but the DynamoDB must be in the configure in AWS. `$ sls invoke local --function {function-name} --data  '{"category":"biologo"}'`
+## Execute Local
+1. Run offline but the DynamoDB must be in the configure in AWS.
+2. Execute the command: `$ sls invoke local --function {function-name} --data  '{ x: { y: "z" } }'`
 
 ## Deploy it in AWS
 
-1. Run the comand `$ yarn deploy:{stage}`, we have 3 stages in this project: dev, test and prod.
-2. Change the `FunctionName` in state-machine.json file after the deploy, before create a new state machine in step functions services.
+1. Run the comand `$ sls deploy --stage {STAGE} `, we have 3 stages in this project: dev, test and prod.
 
 ## Contributing
 
