@@ -56,8 +56,10 @@ resources:
 
 stepFunctions:
   stateMachines:
-    testStateMachinesPlugin:
-      name: testStateMachinesPlugin
+    CrawlerPCIConcursosAndExportReportToS3:
+      name: CrawlerPCIConcursosAndExportReportToS3
+      events:
+        - schedule: cron(0 12 * * ? *)
       definition:
         StartAt: ConfigureCount
         States:
@@ -103,6 +105,25 @@ stepFunctions:
                 { Payload: { category: "gestor-de-residuos-solidos" } },
                 { Payload: { category: "analista-ambiental" } },
                 { Payload: { category: "fiscal-ambiental" } },
+                { Payload: { category: "tecnico-em-seguranca-do-trabalho" } },
+                { Payload: { category: "professor-de-geografia" } },
+                { Payload: { category: "tecnico-agricola" } },
+                { Payload: { category: "fiscal-de-vigilancia-sanitaria" } },
+                {
+                  Payload: { category: "engenheiro-de-seguranca-do-trabalho" },
+                },
+                { Payload: { category: "engenheiro-agronomo" } },
+                { Payload: { category: "engenheiro-ambiental" } },
+                { Payload: { category: "engenheiro-civil" } },
+                { Payload: { category: "biologo" } },
+                { Payload: { category: "topografo" } },
+                { Payload: { category: "fiscal-ambiental" } },
+                { Payload: { category: "fiscal-de-meio-ambiente" } },
+                { Payload: { category: "fiscal-sanitario" } },
+                { Payload: { category: "agente-de-vigilancia-sanitaria" } },
+                { Payload: { category: "analista-ambiental" } },
+                { Payload: { category: "engenheiro-florestal" } },
+                { Payload: { category: "tecnico-em-agropecuaria" } },
               ]
             ResultPath: "$.categories"
             Next: "CrawlPCIConcursosPages"
@@ -118,7 +139,7 @@ stepFunctions:
                 InterateCrawlerPCIConcursosPages:
                   Type: Task
                   Resource:
-                    Fn::GetAtt: [crawler-pciconcursos-vacant-page, Arn]
+                    Fn::GetAtt: [handlerCrawlerPCIConcursosVacantPage, Arn]
                   Next: WriteDataInDynamoDB
                   Catch:
                     - ErrorEquals: ["States.ALL"]
@@ -141,5 +162,5 @@ stepFunctions:
           ExportPCIConcursosToS3:
             Type: Task
             Resource:
-              Fn::GetAtt: [export-data-to-csv-file-step, Arn]
+              Fn::GetAtt: [handlerCreatePCIConcursosVacantReportS3, Arn]
             End: true

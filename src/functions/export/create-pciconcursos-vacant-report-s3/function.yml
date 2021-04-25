@@ -1,4 +1,4 @@
-export-data-to-csv-file-step:
+handlerCreatePCIConcursosVacantReportS3:
   handler: src/functions/export/create-pciconcursos-vacant-report-s3/handler.handlerCreatePCIConcursosVacantReportS3
   environment:
     BUCKET_PATH: ${self:provider.deploymentBucket}/export
