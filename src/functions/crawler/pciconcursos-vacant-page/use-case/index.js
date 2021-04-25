@@ -12,7 +12,7 @@ async function crawlerPCIConcursosVacantPageData(
   };
   try {
     const rawData = await fetchPageData(getURL(baseUrl, category));
-    vacant.result = filterVacantsByFutureDate(convertRawData(rawData));
+    vacant.result = convertRawData(rawData);
     return vacant;
   } catch (error) {
     logError({

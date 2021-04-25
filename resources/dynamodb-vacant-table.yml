@@ -1,0 +1,14 @@
+Resources:
+  RegionTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.vacantTableName}
+      AttributeDefinitions:
+        - AttributeName: category
+          AttributeType: S
+      KeySchema:
+        - AttributeName: category
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: ${self:custom.tableThroughput}
+        WriteCapacityUnits: ${self:custom.tableThroughput}

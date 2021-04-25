@@ -1,6 +1,9 @@
 service: envi-pro-glue
 
 plugins:
+  - serverless-plugin-log-retention
+  - serverless-pseudo-parameters
+  - serverless-step-functions
   - serverless-offline
 
 package:
@@ -19,6 +22,15 @@ package:
     - LICENSE
     - src/**/__tests__/**
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  logRetentionInDays: 7
+  vacantTableName: envipro_glue_vacant_${self:custom.stage}
+  tableThroughputs:
+    prod: 5
+    default: 1
+  tableThroughput: ${self:custom.tableThroughputs.${self:custom.stage}, self:custom.tableThroughputs.default}
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -33,11 +45,37 @@ provider:
         - s3:*
         - cloudwatch:*
         - dynamodb:*
-      Resource: '*'
+      Resource: "*"
   environment:
-    DYNAMODB_ENVI_GLUE_VACANT_TABLE_NAME: 'ENVI-GLUE-VACANT'
+    DYNAMODB_ENVI_GLUE_VACANT_TABLE_NAME: ${self:custom.vacantTableName}
 
 functions:
   - ${file(src/functions/crawler/pciconcursos-vacant-page/function.yml)}
 
+resources:
+  - ${file(resources/dynamodb-vacant-table.yml)}
 
+stepFunctions:
+  stateMachines:
+    testStateMachinesPlugin:
+      name: testStateMachinesPlugin
+      definition:
+        StartAt: CrawlPCIConcursosGeologiaPage
+        States:
+          CrawlPCIConcursosGeologiaPage:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [crawler-pciconcursos-vacant-page, Arn]
+            Parameters:
+              Payload:
+                category: "geologia"
+            Next: WriteDataInDynamoDB
+          WriteDataInDynamoDB:
+            Type: Task
+            Resource: "arn:aws:states:::dynamodb:putItem"
+            Parameters:
+              TableName: ${self:custom.vacantTableName}
+              Item:
+                category: { "S.$": "$.Payload.category" }
+            End: true
+  # validate: true # enable pre-deployment definition validation (disabled by default)
