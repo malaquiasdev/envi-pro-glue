@@ -1,20 +1,28 @@
 const config = require('./config');
-const { logError } = require('../../../components/logger');
+const { logInfo, logError } = require('../../../components/logger');
 const { fetchPageData } = require('../../../components/http/fetch-page-data');
 const { crawlerPCIConcursosVacantPageData } = require('./use-case');
 
 async function handlerCrawlerPCIConcursosVacantPage(event) {
+  logInfo({
+    message: 'start - event',
+    params: event
+  });
   try {
     const result = await crawlerPCIConcursosVacantPageData(
       {
-        category: event.category,
+        category: event.Payload.category,
         baseUrl: config.baseUrl
       },
       { fetchPageData, logError }
     );
+    logInfo({
+      message: 'end - result',
+      params: result
+    });
     return {
       ...event,
-      ...result
+      result
     };
   } catch (error) {
     logError({

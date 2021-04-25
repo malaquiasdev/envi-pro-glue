@@ -6,20 +6,15 @@ async function crawlerPCIConcursosVacantPageData(
   { category, baseUrl },
   { fetchPageData, logError }
 ) {
-  const vacant = {
-    category,
-    result: []
-  };
   try {
     const rawData = await fetchPageData(getURL(baseUrl, category));
-    vacant.result = convertRawData(rawData);
-    return vacant;
+    return convertRawData(rawData);
   } catch (error) {
     logError({
       message: error.message,
       params: { type: error.name, stack: error.stack }
     });
-    return vacant;
+    return [];
   }
 }
 
