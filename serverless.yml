@@ -59,7 +59,9 @@ stepFunctions:
     CrawlerPCIConcursosAndExportReportToS3:
       name: CrawlerPCIConcursosAndExportReportToS3
       events:
-        - schedule: cron(0 12 * * ? *)
+        - schedule:
+            name: CrawlerPCIConcursosAndExportReportToS3
+            rate: cron(0 12 * * ? *)
       definition:
         StartAt: ConfigureCount
         States:
